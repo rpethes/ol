@@ -83,6 +83,17 @@ class SchoolClass(UserData):
     def isValidTurnIndex(self, index):
         return(index in self._turnsDict.keys())
     
+    def hasTurnesAtLeast(self, n, contentType):
+        turn_nr_with_content = 0
+        turns = self.turns()
+        for turn in turns:
+            surveys = turn.getSurveyByContentType(contentType)
+            if (len(surveys) > 0):
+                turn_nr_with_content = turn_nr_with_content + 1
+        if turn_nr_with_content >= n:
+            return True
+        return False
+    
 class School:
     def __init__(self, schoolID):
         self._id = schoolID

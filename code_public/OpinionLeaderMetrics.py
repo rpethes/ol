@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.stats
+from cmath import isnan
 
 class OpinionLeaderMetricData:
     
@@ -281,6 +282,11 @@ class BordaCountAggregationMetric(OpinionLeaderMetric):
             row_values.append(rowIDtoValue[student_id])
             col_values.append(colIDtoValue[student_id])
         tau, p_value = scipy.stats.kendalltau(row_values, col_values)
+        if np.isnan(tau):
+            if (row_values == col_values):
+                tau = 1.0
+            else:
+                tau = 0.0
         return tau
     
     def computeCorrelationMatrix(self, metricDataList, IDSet):

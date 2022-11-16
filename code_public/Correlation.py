@@ -208,7 +208,10 @@ class KendallTauCorrelation(Correlation):
             col_values.append(colIDtoValue[student_id])
         tau, p_value = scipy.stats.kendalltau(row_values, col_values)
         if numpy.isnan(tau):
-            return
+            if (row_values == col_values):
+                tau = 1.0
+            else:
+                tau = 0.0
         key = rowMetricDataObj.unique_name() + "#" + colMetricDataObj.unique_name()
         tau_values = None
         if key in self._correlationValues:

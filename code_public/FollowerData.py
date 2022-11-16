@@ -30,7 +30,7 @@ class FollowerData:
     
 class FollowerDataReader(DataReader):
     
-    def __init__(self, resultsFolderStructure):
+    def __init__(self, resultsFolderStructure, min_turn_nr_for_temporal_metrics):
         self._resultsFolderStructure = resultsFolderStructure
         self._contentType = FollowersSurvey()
         statFilePath =  resultsFolderStructure.rootDir() + resultsFolderStructure.pathSep() + "followerStat.txt"
@@ -42,7 +42,20 @@ class FollowerDataReader(DataReader):
         self._classNumberOfTurns = dict()
         self._studentNumberOfTurns = dict()
         self._edgeNumberOfTurns = dict()
-        
+        self._min_turn_nr_for_temporal_metrics = min_turn_nr_for_temporal_metrics
+        self._classes_used_for_temporal_metrics = list()
+        self._classes = list()
+        self._studentsTemporal = set()
+    
+    def readSchoolClass(self, schoolClass):
+        turns = schoolClass.turns()
+        self._classes.append(schoolClass.id())
+        if schoolClass.hasTurnesAtLeast(self._min_turn_nr_for_temporal_metrics, self._contentType):
+            self._classes_used_for_temporal_metrics.append(schoolClass.id())
+        for turn in turns:
+            self.readTurn(turn)
+            
+            
     def readTurn(self, turn):
         surveys = turn.getSurveyByContentType(self._contentType)
         if (len(surveys) > 0):
@@ -84,7 +97,11 @@ class FollowerDataReader(DataReader):
                 self._edgeNumberOfTurns[turn_index] = self._edgeNumberOfTurns[turn_index] + nr_of_edges
             else:
                 self._edgeNumberOfTurns[turn_index] = nr_of_edges
-             
+                
+            if turn.parent().hasTurnesAtLeast(self._min_turn_nr_for_temporal_metrics, self._contentType):
+                self._studentsTemporal.update(studentIDs)
+            
+                
     
     def read(self, schools):
         schoolList = schools.schools()
@@ -130,4 +147,8 @@ class FollowerDataReader(DataReader):
             n = self._edgeNumberOfTurns[turn_index] 
             self._followerStatisticsFile.write("Turn " + str(turn_index) + ": " + str(n) + "\n")
         
+        nr_classes_used_for_temporal_metrics = len(self._classes_used_for_temporal_metrics)
+        self._followerStatisticsFile.write("\nNumbr of classes used for temporal metrics: " + str(nr_classes_used_for_temporal_metrics) + "\n")
+        nr_students_used_for_temporal_metrics = len(self._studentsTemporal)
+        self._followerStatisticsFile.write("\nNumbr of students used for temporal metrics: " + str(nr_students_used_for_temporal_metrics) + "\n")
         self._followerStatisticsFile.close()

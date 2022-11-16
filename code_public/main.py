@@ -86,7 +86,7 @@ surveyStatistics.buildStatistics(schools)
 ------------------------ read follower data  -----------------------
 """
      
-followerDataReader = FollowerDataReader(resultsFolderStructure)
+followerDataReader = FollowerDataReader(resultsFolderStructure, 4)
 followerDataReader.read(schools)    
 
 """

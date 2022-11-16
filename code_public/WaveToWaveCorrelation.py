@@ -273,7 +273,10 @@ class KendallTauWaveToWaveCorrelation(WaveToWaveCorrelation):
             current_values.append(currentIDtoValue[student_id])
             next_values.append(nextIDtoValue[student_id])
         tau, p_value = scipy.stats.kendalltau(current_values, next_values)
-        if (not np.isnan(tau)) and (tau < 0.0):
-            tau = 0.0 
-
+        # tau can be non is current_values or next_values is a list of single values
+        if (np.isnan(tau)):
+            if (current_values == next_values):
+                tau = 1.0
+            else:
+                tau = 0.0
         return tau
