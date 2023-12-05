@@ -6,11 +6,16 @@ class ResultsFolderStructure:
         self._pathSep = pathSep
         self._baseDir = rootDir + "details" + self._pathSep
         self._ecdfDir = rootDir + "ecdf" + self._pathSep
+        self._instTestDir = rootDir + "instabilityMeasureTest" + self._pathSep
         shutil.rmtree(self._baseDir, ignore_errors = True)
         shutil.rmtree(self._ecdfDir, ignore_errors = True)
+        shutil.rmtree(self._instTestDir, ignore_errors = True)
     
     def ecdfDir(self):
         return self._ecdfDir
+    
+    def instabilityTestDir(self):
+        return self._instTestDir
     
     def schoolFolderPath(self, school):
         path = self._baseDir + str(school.id()) + self._pathSep
@@ -49,6 +54,7 @@ class ResultsFolderStructure:
     def build(self, schools):
         os.mkdir(self._baseDir)
         os.mkdir(self._ecdfDir)
+        os.mkdir(self._instTestDir)
         schoolList = schools.schools()
         for school in schoolList:
             folder = self.schoolFolderPath(school)

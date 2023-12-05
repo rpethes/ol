@@ -271,6 +271,7 @@ class BordaCountAggregationMetric(OpinionLeaderMetric):
         self._trhL = trhL
         self._selectedAggregationsDict = dict()
         self._selectedMeasuresDict = dict()
+        self._improvedBCA = False
     
     
     def computeCorrelation(self, rowMetricDataObj, colMetricDataObj, IDSet):   
@@ -377,9 +378,15 @@ class BordaCountAggregationMetric(OpinionLeaderMetric):
         return scores
     
     def aggregate(self, metricDataList, IDSet):
-        mxCorr = self.computeCorrelationMatrix(metricDataList, IDSet)
-        S = self.sliceing(metricDataList, mxCorr)
-        selected = self.selection(S, mxCorr)
+        selected = None
+        if self._improvedBCA:
+            mxCorr = self.computeCorrelationMatrix(metricDataList, IDSet)
+            S = self.sliceing(metricDataList, mxCorr)
+            selected = self.selection(S, mxCorr)
+        else:
+            n = len(metricDataList)
+            selected = frozenset(range(n))
+            
         result = self.bordaCount(selected, IDSet, metricDataList)
         selected_names = []
         for idx in selected:

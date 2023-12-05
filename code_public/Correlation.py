@@ -4,14 +4,16 @@ import scipy.stats
 import seaborn as sb
 import numpy as np
 import matplotlib.pyplot as plt
+from pickle import NONE
 
 class Correlation(DataReader):
-    def __init__(self, name,  resultsFolderStructure, resultsDir, metricsRows, metricsCols):
+    def __init__(self, name,  resultsFolderStructure, resultsDir, metricsRows, metricsCols, isHeatMapScaleAutomatic):
         self._name = name
         self._resultsFolderStructure = resultsFolderStructure
         self._resultsDir = resultsDir
         self._metricsRows = metricsRows
         self._metricsCols = metricsCols
+        self._isHeatMapScaleAutomatic = isHeatMapScaleAutomatic
         
     
     def createHeatMap(self, mx, targetFilePath, xlabels, ylabels, labelX, labelY):
@@ -19,12 +21,18 @@ class Correlation(DataReader):
         cmap = sb.diverging_palette(500, 10, as_cmap=True)
         cbar = len(xlabels) > 1 and len(ylabels) > 1
         hm = None
+        value_min = None
+        value_max = None
+        if self._isHeatMapScaleAutomatic == False:
+            value_min = 0.0
+            value_max = 1.0
+        
         if len(ylabels) == 1:
             #annot_kws= {'rotation':"vertical"}
             plt.figure(figsize=(15, 2))
-            hm = sb.heatmap(mx, cmap=cmap, annot=True,  xticklabels = xlabels, yticklabels = ylabels, vmax= 1.0, cbar = cbar)
+            hm = sb.heatmap(mx, cmap=cmap, annot=True,  xticklabels = xlabels, yticklabels = ylabels, vmin = value_min, vmax = value_max, cbar = cbar)
         else:
-            hm = sb.heatmap(mx, cmap=cmap, annot=True,  xticklabels = xlabels, yticklabels = ylabels, vmax= 1.0, cbar = cbar)
+            hm = sb.heatmap(mx, cmap=cmap, annot=True,  xticklabels = xlabels, yticklabels = ylabels, vmin = value_min, vmax= value_max, cbar = cbar)
         figure = hm.get_figure()    
         if labelX != None and len(ylabels) > 1:
             plt.xlabel(labelX, fontweight='normal', fontsize=12)
@@ -70,7 +78,7 @@ class Correlation(DataReader):
                
 class CentralityValueCorrelation(Correlation):
     def __init__(self, name,  resultsFolderStructure, resultsDir, metricsRows, metricsCols):
-        Correlation.__init__(self, name, resultsFolderStructure, resultsDir, metricsRows, metricsCols)
+        Correlation.__init__(self, name, resultsFolderStructure, resultsDir, metricsRows, metricsCols, False)
         self._valuesX = dict()
         self._valuesY = dict()
         
@@ -116,7 +124,7 @@ class CentralityValueCorrelation(Correlation):
             
 class CentralityRankCorrelation(Correlation):
     def __init__(self, name,  resultsFolderStructure, resultsDir, metricsRows, metricsCols):
-        Correlation.__init__(self, name, resultsFolderStructure, resultsDir, metricsRows, metricsCols)
+        Correlation.__init__(self, name, resultsFolderStructure, resultsDir, metricsRows, metricsCols, False)
         self._valuesX = dict()
         self._valuesY = dict()
     
@@ -187,8 +195,8 @@ class CentralityRankCorrelation(Correlation):
         
         
 class KendallTauCorrelation(Correlation):
-    def __init__(self, name,  resultsFolderStructure, resultsDir, metricsRows, metricsCols, rowNames, colNames,  xlabel, ylabel):
-        Correlation.__init__(self, name, resultsFolderStructure, resultsDir, metricsRows, metricsCols)
+    def __init__(self, name,  resultsFolderStructure, resultsDir, metricsRows, metricsCols, rowNames, colNames,  xlabel, ylabel, isHeatMapScaleAutomatic):
+        Correlation.__init__(self, name, resultsFolderStructure, resultsDir, metricsRows, metricsCols, isHeatMapScaleAutomatic)
         self._correlationValues = dict()
         self._rowNames = rowNames
         self._colNames = colNames
@@ -255,14 +263,15 @@ class KendallTauCorrelation(Correlation):
         
         
 class JaccardTopInfluencersSimilarity(Correlation):
-    def __init__(self, name, n,  resultsFolderStructure, resultsDir, metricsRows, metricsCols, rowNames, colNames,  xlabel, ylabel ):
-        Correlation.__init__(self, name, resultsFolderStructure, resultsDir, metricsRows, metricsCols)
+    def __init__(self, name, n,  resultsFolderStructure, resultsDir, metricsRows, metricsCols, rowNames, colNames,  xlabel, ylabel, isHeatMapScaleAutomatic ):
+        Correlation.__init__(self, name, resultsFolderStructure, resultsDir, metricsRows, metricsCols, isHeatMapScaleAutomatic)
         self._n = n
         self._values = dict()
         self._rowNames = rowNames
         self._colNames = colNames
         self._xlabel = xlabel
         self._ylabel = ylabel
+        
     
     def getTopInfluencers(self, metricDataObj, common_id_set):
         idsListOfSortedValues = metricDataObj.idsListOfSortedValues()
