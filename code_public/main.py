@@ -54,7 +54,7 @@ print("\nmatplotlib version:")
 print(matplotlib.__version__)
 
 
-
+image_extensions = ".eps"
 
 """
 -------------------------------- set paths ------------------------------------
@@ -650,19 +650,19 @@ allBordaCount_vs_friendsRankCorrelations.read(schools)
 -------------------- Jaccard similarity of top influencers ------------
 """
 
-jaccardTopInfluencersFollowers = JaccardTopInfluencersSimilarity("followerJaccard",5 ,resultsFolderStructure, resultsDir, metrics_followers, metrics_followers, metrics_followers_names, metrics_followers_names, None, None, False)
+jaccardTopInfluencersFollowers = JaccardTopInfluencersSimilarity("followerJaccard",5 ,resultsFolderStructure, resultsDir, metrics_followers, metrics_followers, metrics_followers_names, metrics_followers_names, None, None, False, image_extensions)
 jaccardTopInfluencersFollowers.read(schools)
 
-jaccardTopInfluencersFriends = JaccardTopInfluencersSimilarity("friendsJaccard",5 ,resultsFolderStructure, resultsDir, metrics_friends, metrics_friends, metrics_friends_names, metrics_friends_names, None, None, False)
+jaccardTopInfluencersFriends = JaccardTopInfluencersSimilarity("friendsJaccard",5 ,resultsFolderStructure, resultsDir, metrics_friends, metrics_friends, metrics_friends_names, metrics_friends_names, None, None, False, image_extensions)
 jaccardTopInfluencersFriends.read(schools)
 
-jaccardTopInfluencers_follower_vs_friendss = JaccardTopInfluencersSimilarity("follower_vs_friends_Jaccard",5 ,resultsFolderStructure, resultsDir, metrics_friends, metrics_followers,  metrics_friends_names, metrics_followers_names, "Advice seeking centrality measures", "Friendship centrality measures", True )
+jaccardTopInfluencers_follower_vs_friendss = JaccardTopInfluencersSimilarity("follower_vs_friends_Jaccard",5 ,resultsFolderStructure, resultsDir, metrics_friends, metrics_followers,  metrics_friends_names, metrics_followers_names, "Advice seeking centrality measures", "Friendship centrality measures", True, image_extensions )
 jaccardTopInfluencers_follower_vs_friendss.read(schools)
 
-jaccard_allBordaCount_vs_followers = JaccardTopInfluencersSimilarity("allBordaCount_vs_followers_Jaccard", 5, resultsFolderStructure, resultsDir, [bordaCountAggregationMetricAll], metrics_followers, ["Bca(all)"], metrics_followers_names, "Advice seeking centrality measures", None, False)
+jaccard_allBordaCount_vs_followers = JaccardTopInfluencersSimilarity("allBordaCount_vs_followers_Jaccard", 5, resultsFolderStructure, resultsDir, [bordaCountAggregationMetricAll], metrics_followers, ["Bca(all)"], metrics_followers_names, "Advice seeking centrality measures", None, False, image_extensions)
 jaccard_allBordaCount_vs_followers.read(schools)
 
-jaccard_allBordaCount_vs_friends = JaccardTopInfluencersSimilarity("allBordaCount_vs_friends_Jaccard",5, resultsFolderStructure, resultsDir, [bordaCountAggregationMetricAll], metrics_friends,["Bca(all)"], metrics_friends_names, "Friendship centrality measures", None, False)
+jaccard_allBordaCount_vs_friends = JaccardTopInfluencersSimilarity("allBordaCount_vs_friends_Jaccard",5, resultsFolderStructure, resultsDir, [bordaCountAggregationMetricAll], metrics_friends,["Bca(all)"], metrics_friends_names, "Friendship centrality measures", None, False, image_extensions)
 jaccard_allBordaCount_vs_friends.read(schools)
 
 
@@ -692,7 +692,7 @@ items_follower = [(FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOninDegree.ful
           (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOncorenessIn.fullName(), "core", "#F1C40F"),
           (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOnDirectedEigen.fullName(), "eign", "#DC7633")]
 
-sequenceInstabilityPlotFollowers = SequenceInstabilityPlot(items_follower, "Centrality measures of advice seeking networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FollowerSequenceInstabilityPlot.png")
+sequenceInstabilityPlotFollowers = SequenceInstabilityPlot(items_follower, "Centrality measures of advice seeking networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FollowerSequenceInstabilityPlot" + image_extensions)
 sequenceInstabilityPlotFollowers.read(schools)
 
 items_follower_topK_Jaccard = [(FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOninDegree_TopK_Jaccard.fullName(), "inDg-3", "#FF2709"),
@@ -701,7 +701,7 @@ items_follower_topK_Jaccard = [(FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityO
           #(FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOncorenessIn.fullName(), "core-1", "#F1C40F"),
           (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOnDirectedEigen_TopK_Jaccard.fullName(), "eign-5", "#DC7633")]
 
-sequenceInstabilityPlotFollowers_topK_Jaccard = SequenceInstabilityPlot(items_follower_topK_Jaccard, "Centrality measures of advice seeking networks", "Top-k Sequence instability using Jaccard-distance",  resultsFolderStructure, resultsDir, "FollowerSequenceInstabilityPlot_topK_Jaccard.png")
+sequenceInstabilityPlotFollowers_topK_Jaccard = SequenceInstabilityPlot(items_follower_topK_Jaccard, "Centrality measures of advice seeking networks", "Top-k Sequence instability using Jaccard-distance",  resultsFolderStructure, resultsDir, "FollowerSequenceInstabilityPlot_topK_Jaccard"+ image_extensions)
 sequenceInstabilityPlotFollowers_topK_Jaccard.read(schools)
 
 items_follower_topK_SFH = [(FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOninDegree_TopK_SFH.fullName(), "inDg-3", "#FF2709"),
@@ -710,7 +710,7 @@ items_follower_topK_SFH = [(FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOninD
           #(FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOncorenessIn.fullName(), "core-1", "#F1C40F"),
           (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOnDirectedEigen_TopK_SFH.fullName(), "eign-5", "#DC7633")]
 
-sequenceInstabilityPlotFollowers_topK_SFH = SequenceInstabilityPlot(items_follower_topK_SFH, "Centrality measures of advice seeking networks", "Top-k Sequence instability using SFH-distance",  resultsFolderStructure, resultsDir, "FollowerSequenceInstabilityPlot_topK_SFH.png")
+sequenceInstabilityPlotFollowers_topK_SFH = SequenceInstabilityPlot(items_follower_topK_SFH, "Centrality measures of advice seeking networks", "Top-k Sequence instability using SFH-distance",  resultsFolderStructure, resultsDir, "FollowerSequenceInstabilityPlot_topK_SFH" + image_extensions)
 sequenceInstabilityPlotFollowers_topK_SFH.read(schools)
 
 
@@ -719,13 +719,13 @@ items_follower_2Nbh_pg_core = [
           (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOnTwoHopNeighborhoodIn.fullName(), "2Nbh-J-1", "#FA70B5"),
           (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOnTwoHopNeighborhoodIn_TopK_Jaccard.fullName(), "2Nbh-J-3", "#FA70B5"),
           (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOnTwoHopNeighborhoodIn_TopK_SFH.fullName(), "2Nbh-S-3", "#FA70B5"),
-          (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOnPageRank65.fullName(), "pg", "#09FF10"),
+          (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOnPageRank65.fullName(), "pg-J-1", "#09FF10"),
           (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOnPageRank65_TopK_Jaccard.fullName(), "pg-J-5", "#09FF10"),
           (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOnPageRank65_TopK_SFH.fullName(), "pg-S-5", "#09FF10"),
           (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOncorenessIn.fullName(), "core-J-1", "#F1C40F"),
          ]
 
-sequenceInstabilityPlotFollowers_2Nbh_pg_core = SequenceInstabilityPlot(items_follower_2Nbh_pg_core, "Centrality measures of advice seeking networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FollowerSequenceInstabilityPlot_2Nbh_pg_core.png")
+sequenceInstabilityPlotFollowers_2Nbh_pg_core = SequenceInstabilityPlot(items_follower_2Nbh_pg_core, "Centrality measures of advice seeking networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FollowerSequenceInstabilityPlot_2Nbh_pg_core" + image_extensions)
 sequenceInstabilityPlotFollowers_2Nbh_pg_core.read(schools)
 
 items_follower_iDg_eign = [
@@ -737,7 +737,7 @@ items_follower_iDg_eign = [
           (FOLLOWER_TEMPORAL_DATA_KEY, sequenceInstabilityOnDirectedEigen_TopK_SFH.fullName(), "eign-S-5", "#DC7633")
          ]
 
-sequenceInstabilityPlotFollowers_iDg_eign = SequenceInstabilityPlot(items_follower_iDg_eign, "Centrality measures of advice seeking networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FollowerSequenceInstabilityPlot_iDg_eign.png")
+sequenceInstabilityPlotFollowers_iDg_eign = SequenceInstabilityPlot(items_follower_iDg_eign, "Centrality measures of advice seeking networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FollowerSequenceInstabilityPlot_iDg_eign" + image_extensions)
 sequenceInstabilityPlotFollowers_iDg_eign.read(schools)
 
 # FRIENDS
@@ -750,7 +750,7 @@ items_friends = [(FRIEND_TEMPORAL_DATA_KEY, sequenceInstabilityOninDegreeOnFrien
           (FRIEND_TEMPORAL_DATA_KEY, sequenceInstabilityBetweennessOnFriends.fullName(), "btw", "#186A3B")]
 
 
-sequenceInstabilityPlotFriends= SequenceInstabilityPlot(items_friends, "Centrality measures of friendship networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot.png")
+sequenceInstabilityPlotFriends= SequenceInstabilityPlot(items_friends, "Centrality measures of friendship networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot"+ image_extensions)
 sequenceInstabilityPlotFriends.read(schools)
 
 items_friends_TopK_Jaccard = [(FRIEND_TEMPORAL_DATA_KEY, sequenceInstabilityOninDegreeOnFriends_TopK_Jaccard.fullName(), "inDg-3", "#FF2709"),
@@ -762,7 +762,7 @@ items_friends_TopK_Jaccard = [(FRIEND_TEMPORAL_DATA_KEY, sequenceInstabilityOnin
           (FRIEND_TEMPORAL_DATA_KEY, sequenceInstabilityBetweennessOnFriends_TopK_Jaccard.fullName(), "btw-5", "#186A3B")]
 
 
-sequenceInstabilityPlotFriends_TopK_Jaccard = SequenceInstabilityPlot(items_friends_TopK_Jaccard, "Centrality measures of friendship networks", "Top-k Sequence instability using Jaccard-distance",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot_topK_Jaccard.png")
+sequenceInstabilityPlotFriends_TopK_Jaccard = SequenceInstabilityPlot(items_friends_TopK_Jaccard, "Centrality measures of friendship networks", "Top-k Sequence instability using Jaccard-distance",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot_topK_Jaccard" + image_extensions)
 sequenceInstabilityPlotFriends_TopK_Jaccard.read(schools)
 
 items_friends_TopK_SFH = [(FRIEND_TEMPORAL_DATA_KEY, sequenceInstabilityOninDegreeOnFriends_TopK_SFH.fullName(), "inDg-3", "#FF2709"),
@@ -774,7 +774,7 @@ items_friends_TopK_SFH = [(FRIEND_TEMPORAL_DATA_KEY, sequenceInstabilityOninDegr
           (FRIEND_TEMPORAL_DATA_KEY, sequenceInstabilityBetweennessOnFriends_TopK_SFH.fullName(), "btw-5", "#186A3B")]
 
 
-sequenceInstabilityPlotFriends_TopK_SFH = SequenceInstabilityPlot(items_friends_TopK_SFH, "Centrality measures of friendship networks", "Top-k Sequence instability using SFH-distance",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot_topK_SFH.png")
+sequenceInstabilityPlotFriends_TopK_SFH = SequenceInstabilityPlot(items_friends_TopK_SFH, "Centrality measures of friendship networks", "Top-k Sequence instability using SFH-distance",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot_topK_SFH" + image_extensions)
 sequenceInstabilityPlotFriends_TopK_SFH.read(schools)
 
 items_friends_2Nbh_pg_core = [
@@ -788,7 +788,7 @@ items_friends_2Nbh_pg_core = [
           ]
 
 
-sequenceInstabilityPlotFriends_2Nbh_pg_core = SequenceInstabilityPlot(items_friends_2Nbh_pg_core, "Centrality measures of friendship networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot_2Nbh_pg_core.png")
+sequenceInstabilityPlotFriends_2Nbh_pg_core = SequenceInstabilityPlot(items_friends_2Nbh_pg_core, "Centrality measures of friendship networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot_2Nbh_pg_core" + image_extensions)
 sequenceInstabilityPlotFriends_2Nbh_pg_core.read(schools)
 
 items_friends_inDg_eign = [
@@ -801,7 +801,7 @@ items_friends_inDg_eign = [
           ]
 
 
-sequenceInstabilityPlotFriends_inDg_eign = SequenceInstabilityPlot(items_friends_inDg_eign, "Centrality measures of friendship networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot_inDg_eign.png")
+sequenceInstabilityPlotFriends_inDg_eign = SequenceInstabilityPlot(items_friends_inDg_eign, "Centrality measures of friendship networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot_inDg_eign" + image_extensions)
 sequenceInstabilityPlotFriends_inDg_eign.read(schools)
 
 items_friends_cl_btw = [
@@ -814,35 +814,35 @@ items_friends_cl_btw = [
           ]
 
 
-sequenceInstabilityPlotFriends_cl_btw = SequenceInstabilityPlot(items_friends_cl_btw, "Centrality measures of friendship networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot_cl_btw.png")
+sequenceInstabilityPlotFriends_cl_btw = SequenceInstabilityPlot(items_friends_cl_btw, "Centrality measures of friendship networks", "Sequence instability",  resultsFolderStructure, resultsDir, "FriendsSequenceInstabilityPlot_cl_btw" + image_extensions)
 sequenceInstabilityPlotFriends_cl_btw.read(schools)
 
 items_aggr = [(AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregation.fullName(), "advice seeking", "#FF2709"),
           (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregationOnFriends.fullName(), "friendship", "#09FF10"),
           (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregationOnAll.fullName(), "both", "#0030D7")]
 
-sequenceInstabilityPlotAggr = SequenceInstabilityPlot(items_aggr, "Borda count aggregation measures", "Sequence instability",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot.png")
+sequenceInstabilityPlotAggr = SequenceInstabilityPlot(items_aggr, "Borda count aggregation measures", "Sequence instability",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot" + image_extensions)
 sequenceInstabilityPlotAggr.read(schools)
 
 items_aggr_TopK_Jaccard = [(AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregation_TopK_Jaccard.fullName(), "advice seeking-5", "#FF2709"),
           (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregationOnFriends_TopK_Jaccard.fullName(), "friendship-5", "#09FF10"),
           (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregationOnAll_TopK_Jaccard.fullName(), "both-5", "#0030D7")]
 
-sequenceInstabilityPlotAggr_TopK_Jaccard = SequenceInstabilityPlot(items_aggr_TopK_Jaccard, "Borda count aggregation measures", "Top-k Sequence instability using Jaccard-distance",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot_topK_Jaccard.png")
+sequenceInstabilityPlotAggr_TopK_Jaccard = SequenceInstabilityPlot(items_aggr_TopK_Jaccard, "Borda count aggregation measures", "Top-k Sequence instability using Jaccard-distance",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot_topK_Jaccard" + image_extensions)
 sequenceInstabilityPlotAggr_TopK_Jaccard.read(schools)
 
 items_aggr_TopK_SFH = [(AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregation_TopK_SFH.fullName(), "advice seeking-5", "#FF2709"),
           (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregationOnFriends_TopK_SFH.fullName(), "friendship-5", "#09FF10"),
           (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregationOnAll_TopK_SFH.fullName(), "both-5", "#0030D7")]
 
-sequenceInstabilityPlotAggr_TopK_SFH = SequenceInstabilityPlot(items_aggr_TopK_SFH, "Borda count aggregation measures", "Top-k Sequence instability using SFH-distance",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot_topK_SFH.png")
+sequenceInstabilityPlotAggr_TopK_SFH = SequenceInstabilityPlot(items_aggr_TopK_SFH, "Borda count aggregation measures", "Top-k Sequence instability using SFH-distance",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot_topK_SFH" + image_extensions)
 sequenceInstabilityPlotAggr_TopK_SFH.read(schools)
 
 items_aggr_followers = [(AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregation.fullName(), "Bca", "#FF2709"),
           (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregation_TopK_Jaccard.fullName(), "Bca-J-5", "#FF2709"),
           (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregation_TopK_SFH.fullName(), "Bca-S-5", "#FF2709")]
 
-sequenceInstabilityPlotAggr_followers = SequenceInstabilityPlot(items_aggr_followers, "Borda count aggregation measures of advice seeking networks", "Sequence instability",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot_followers.png")
+sequenceInstabilityPlotAggr_followers = SequenceInstabilityPlot(items_aggr_followers, "Borda count aggregation measures of advice seeking networks", "Sequence instability",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot_followers" + image_extensions)
 sequenceInstabilityPlotAggr_followers.read(schools)
 
 
@@ -850,14 +850,14 @@ items_aggr_friends = [(AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAg
            (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregationOnFriends_TopK_Jaccard.fullName(), "Bca-J-5", "#09FF10"),
           (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregationOnAll_TopK_SFH.fullName(), "Bca-S-5", "#09FF10")]
 
-sequenceInstabilityPlotAggr_friends = SequenceInstabilityPlot(items_aggr_friends, "Borda count aggregation measures of friendship networks", "Sequence instability",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot_friends.png")
+sequenceInstabilityPlotAggr_friends = SequenceInstabilityPlot(items_aggr_friends, "Borda count aggregation measures of friendship networks", "Sequence instability",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot_friends" + image_extensions)
 sequenceInstabilityPlotAggr_friends.read(schools)
 
 items_aggr_all = [(AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregationOnAll.fullName(), "Bca", "#0030D7"),
            (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregationOnAll_TopK_Jaccard.fullName(), "Bca-J-5", "#0030D7"),
           (AGGR_TEMPORAL_DATA_KEY, sequenceInstabilityOnBordaCountAggregationOnAll_TopK_SFH.fullName(), "Bca-S-5", "#0030D7")]
 
-sequenceInstabilityPlotAggr_all = SequenceInstabilityPlot(items_aggr_all, "Borda count aggregation measures of both network types", "Sequence instability",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot_all.png")
+sequenceInstabilityPlotAggr_all = SequenceInstabilityPlot(items_aggr_all, "Borda count aggregation measures of both network types", "Sequence instability",  resultsFolderStructure, resultsDir, "AggrSequenceInstabilityPlot_all" + image_extensions)
 sequenceInstabilityPlotAggr_all.read(schools)
 
 

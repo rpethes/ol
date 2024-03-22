@@ -263,7 +263,7 @@ class KendallTauCorrelation(Correlation):
         
         
 class JaccardTopInfluencersSimilarity(Correlation):
-    def __init__(self, name, n,  resultsFolderStructure, resultsDir, metricsRows, metricsCols, rowNames, colNames,  xlabel, ylabel, isHeatMapScaleAutomatic ):
+    def __init__(self, name, n,  resultsFolderStructure, resultsDir, metricsRows, metricsCols, rowNames, colNames,  xlabel, ylabel, isHeatMapScaleAutomatic, image_extensions ):
         Correlation.__init__(self, name, resultsFolderStructure, resultsDir, metricsRows, metricsCols, isHeatMapScaleAutomatic)
         self._n = n
         self._values = dict()
@@ -271,6 +271,7 @@ class JaccardTopInfluencersSimilarity(Correlation):
         self._colNames = colNames
         self._xlabel = xlabel
         self._ylabel = ylabel
+        self._image_extensions = image_extensions
         
     
     def getTopInfluencers(self, metricDataObj, common_id_set):
@@ -339,5 +340,5 @@ class JaccardTopInfluencersSimilarity(Correlation):
         f.write("min_variance = " + str(min_variance) + "\n")
         f.write("max_variance = " + str(max_variance))
         f.close()
-        plotFilePath =  self._resultsFolderStructure.rootDir() + self._resultsFolderStructure.pathSep() + self._name + ".png"
+        plotFilePath =  self._resultsFolderStructure.rootDir() + self._resultsFolderStructure.pathSep() + self._name + self._image_extensions
         self.createHeatMap(mx, plotFilePath,self._colNames,  self._rowNames, self._xlabel, self._ylabel)
